@@ -93,25 +93,23 @@
 <hr />
 
 <p>
-    <b>This demo page shows the navigation links that should appear
-    on the home page.</b>
-    It is not necessary that these links be at the top of the page
-    but they should be displayed nicely and be easy to find.  You
-    may alter the CSS on the page to change the placement and the
-    size of the links.
+    <b>CS4550 Web Development - Alex Johnson</b>
 </p>
 
 <hr />
 
+
+<h3>Homework Assignments</h3>
+
 <p>
-    The home page may show some interesting content but its main
-    purpose should be to <i>provide navigation</i> to other pages
-    on your site.
+    
+    <a href="assignments/html/studyList.html">Assignment 01 - HTML</a>
+
 </p>
 
 <hr />
 
-<p>
+<!-- <p>
     It would be helpful if your home page shows your name and a
     photo of yourself.  This will help us to get to know you. 
 </p>
@@ -134,16 +132,8 @@ so that you may see a good collection of online documentation.
 <p>
 This provides a model for using stories for documentation and
 for collections of experiments.
-</p>
+</p> -->
 
-<hr />
-
-<p>
-None of the hints given above needs to be on your home page
-downstream but it is convenient to have them here at startup.
-</p>
-
-<hr />
 
 </div>
 

@@ -15,6 +15,10 @@ courses = [
 //   console.log(courses)
 // }
 
+
+// Define the last selected ID
+selectedId = -1;
+
 // Takes the list of courses, and render them as table rows
 function renderCourses(courses){
   
@@ -40,7 +44,7 @@ function renderCourses(courses){
     buttons += '</button>';
 
     // HTML for buttons (delete)
-    buttons += '<button type="button" class="btn btn-danger pull-right" onclick="deleteCourse(' + i + ')">';
+    buttons += '<button type="button" class="btn btn-danger pull-right" onclick="confirmDelete(' + i + ')">';
     buttons += '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>';
     buttons += '</button>';
 
@@ -55,13 +59,26 @@ function editCourse(id){
 
 };
 
-function deleteCourse(id){
-  courses.splice(id, 1);
-  renderCourses(courses);
+// Open bootstrap modal
+function confirmDelete(id){
+  
+  // Save selection
+  selectedId = id;
+
+  // Open Modal
+  $('#deleteModal').modal('toggle');
 };
 
-function addCourse(){
+function deleteCourse(){
+  $('#deleteModal').hide('toggle')
 
+   courses.splice(selectedId, 1);
+   renderCourses(courses); 
+}
+
+function addCourse(course){
+  courses.push(course);
+  renderCourses();
 };
 
 

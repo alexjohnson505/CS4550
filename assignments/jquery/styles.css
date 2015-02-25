@@ -4,3 +4,7 @@ body {
 	font-size: 14px;
 	color: #333;
 }
+
+.btn-danger.pull-right {
+	margin-right: 8px;
+}

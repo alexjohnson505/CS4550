@@ -103,7 +103,8 @@
 
 <p>
     
-    <a href="assignments/html/studyList.html">Assignment 01 - HTML</a>
+    <a href="assignments/html/studyList.html">Assignment 01 - HTML</a><br>
+    <a href="assignments/css/profile.html">Assignment 02 - CSS</a>
 
 </p>
 

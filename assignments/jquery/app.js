@@ -44,7 +44,7 @@ function renderCourses(courses){
     buttons += '</button>';
 
     // HTML for buttons (delete)
-    buttons += '<button type="button" class="btn btn-danger pull-right" onclick="confirmDelete(' + i + ')">';
+    buttons += '<button type="button" class="btn btn-danger pull-right" onclick="deleteCourse(' + i + ')">';
     buttons += '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>';
     buttons += '</button>';
 
@@ -59,21 +59,13 @@ function editCourse(id){
 
 };
 
-// Open bootstrap modal
-function confirmDelete(id){
-  
-  // Save selection
-  selectedId = id;
+function deleteCourse(i){
+  var selected = courses[i];
+  if(confirm("Are you sure you want to delete " + selected.name + "?")){
 
-  // Open Modal
-  $('#deleteModal').modal('toggle');
-};
-
-function deleteCourse(){
-  $('#deleteModal').hide('toggle')
-
-   courses.splice(selectedId, 1);
-   renderCourses(courses); 
+    courses.splice(selectedId, 1);
+    renderCourses(courses); 
+  }
 }
 
 function addCourse(course){

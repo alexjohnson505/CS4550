@@ -1,5 +1,16 @@
 // JAVASCRIPT LOGIC
 
+/**********************
+    Init Content
+ **********************/
+
+$(function () {
+
+  // Initialize Data onto Page
+  renderCourses();
+});
+
+
 // List of courses in memory
 courses = [ 
   	{ name : "Java 101", category : "PROG", dateCreated : "1/1/2015", description : "Wow" },
@@ -9,7 +20,8 @@ courses = [
   	{ name : "NodeJS 101", category : "PROG", dateCreated : "5/1/2015", description : "Awesome" }
 ];
 
-var selectedCourseId = 0;
+// No courses are currently selected.
+var selectedCourseId = -1;
 
 // Takes the list of courses, and render them as table rows
 function renderCourses(){
@@ -48,69 +60,82 @@ function renderCourses(){
   }
 };
 
+/**********************
+   Editing Courses
+ **********************/
+
 // Open Modal for Adding a Course
 function addCourse(){
+  selectedCourseId = -1;
 
-  // Generate today's date
-  // http://stackoverflow.com/questions/6982692/html5-input-type-date-default-value-to-today
-  var now = new Date();
-  var month = (now.getMonth() + 1);               
-  var day = now.getDate();
-
-  if(month < 10) 
-      month = "0" + month;
-  if(day < 10) 
-      day = "0" + day;
-
-  var today = now.getFullYear() + '-' + month + '-' + day;
+  // Clear Form
+  $("#editModalForm .name").val("");
+  $("#editModalForm .category").val("");
+  $("#editModalForm .description").val("");
 
   // Place date as default value in datepicker
-  $('#addModalForm .dateCreated').val(today);
+  var today = todaysDate();
+  $('#editModalForm .dateCreated').val(today);
 
-  $("#addModal").modal("show"); // Open add modal
+  // Update modal title
+  $(".modal-title").text("Create New Course");
+
+  // Show modal
+  $("#editModal").modal("show");
 };
-
-// Save New Course, Close Modal
-function createCourse(){
-
-  courses.push({
-    name : $("#addModalForm .name").val(),
-    category : $("#addModalForm .category").val(),
-    modified : $("#addModalForm .dateCreated").val(),
-    description : $("#addModalForm .description").val(),
-  });
-
-  $("#addModal").modal("hide"); // Hide add modal
-
-  renderCourses();
-}
 
 // Open Modal for Editing a Course
 function editCourse(id){
   selectedCourseId = id;
 
-  $("#editModal").modal("show"); // Open edit modal
-
+  // Course to be edited
   var course = courses[id];
 
   // Populate Form
-  $("#editModalForm #name").val(course.name);
-  $("#editModalForm #category").val(course.category);
-  $("#editModalForm #description").val(course.description);
+  $("#editModalForm .name").val(course.name);
+  $("#editModalForm .category").val(course.category);
+  $("#editModalForm .dateCreated").val(new Date(course.dateCreated));
+  $("#editModalForm .description").val(course.description);
+
+  // Update modal title
+  $(".modal-title").text("Edit an Existing Course");
+
+  // Show modal
+  $("#editModal").modal("show");
 };
 
-// Save Edited Course, Close Modal
+// Saved a NEW or EDITED course
 function saveCourse(){
   var id = selectedCourseId;
 
-  // Save new values
-  courses[id].name = $("#editModalForm #name").val();
-  courses[id].category = $("#editModalForm #category").val();
-  courses[id].description = $("#editModalForm #description").val();
-  courses[id].modified = "NOW";
+  var course = {
+      name : $("#editModalForm .name").val(),
+      category : $("#editModalForm .category").val(),
+      modified : $("#editModalForm .dateCreated").val(),
+      description : $("#editModalForm .description").val(),
+  }
 
-  $("#editModal").modal("hide"); // hide edit modal
+  // Update existing course.
+  // With an id greater than -1, we know
+  // that we were editing an existng course.
+  if (id > -1){
 
+    // Save updated values
+    courses[id] = course;
+
+  // Create new course.
+  // With an id of -1, we know that this course
+  // does not exist yet, and we can add it to the list.
+  } else {
+
+    // Add new course
+    courses.push(course);
+  }
+
+  // Close modal
+  $("#editModal").modal("hide"); 
+
+  // Update content
   renderCourses();
 }
 
@@ -124,21 +149,24 @@ function deleteCourse(id){
   }
 }
 
+// Generate today's date
+// http://stackoverflow.com/questions/6982692/html5-input-type-date-default-value-to-today
+function todaysDate(){
+  var now = new Date();
+  var month = (now.getMonth() + 1);               
+  var day = now.getDate();
+
+  if(month < 10) 
+      month = "0" + month;
+  if(day < 10) 
+      day = "0" + day;
+
+  return now.getFullYear() + '-' + month + '-' + day;
+}
+
 // @TODO - Fix localStorage JSON retrieval.
 function save(){
   localStorage.setItem("courses", JSON.stringify(courses));
   console.log("\nCourses Saved to Local Storage: ");
   console.log(JSON.parse(localStorage["courses"]));
 }
-
-$(function () {
-
-  // Initialize Data onto Page
-  renderCourses();
-
-  // @TODO - Finish localStorage support
-  // if (localStorage.getItem("courses")){
-  //   courses = JSON.parse(localStorage["courses"]);
-  //   console.log(courses)
-  // }
-});

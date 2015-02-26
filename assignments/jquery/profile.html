@@ -101,8 +101,9 @@
     </main>
   </div>
 
-  <!-- ADD -->
-  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- ADD/EDIT COURSE -->
+  <!-- Adding & Editing Courses use the same Modal -->
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -110,7 +111,7 @@
           <h4 class="modal-title">Create New Course</h4>
         </div>
         <div class="modal-body">
-          <form id="addModalForm">
+          <form id="editModalForm">
             <div class="form-group">
               <label for="name">Name</label>
               <input type="email" class="form-control name" placeholder="Enter Name">
@@ -125,7 +126,7 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="dateCreated">UpdateCreated</label>
+              <label for="dateCreated">Date Created</label>
               <input type="date" class="form-control dateCreated" placeholder="Enter Updated Date">
             </div>
             <div class="form-group">
@@ -136,39 +137,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="save btn btn-primary" onclick="createCourse()">Ok</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- EDIT -->
-  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Edit Course</h4>
-        </div>
-        <div class="modal-body">
-          <form id="editModalForm">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" class="form-control" id="name" placeholder="Enter Name">
-            </div>
-            <div class="form-group">
-              <label for="category">Category</label>
-              <input type="text" class="form-control" id="category" placeholder="Enter Category">
-            </div>
-            <div class="form-group">
-              <label for="description">Description</label>
-              <input type="text" class="form-control" id="description" placeholder="Enter Description">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="save btn btn-primary" onclick="saveCourse()">Save</button>
+          <button type="button" class="save btn btn-primary" onclick="saveCourse()">Ok</button>
         </div>
       </div>
     </div>

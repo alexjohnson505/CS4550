@@ -9,6 +9,8 @@ courses = [
   	{ name : "NodeJS 101", category : "PROG", dateCreated : "5/1/2015", description : "Awesome" }
 ];
 
+var selectedCourseId = 0;
+
 // Takes the list of courses, and render them as table rows
 function renderCourses(){
   
@@ -18,8 +20,8 @@ function renderCourses(){
   // Iterate through courses
   for (var i = courses.length - 1; i >= 0; i--) {
     
-    var tr = $("<tr>");
-
+    var tr = (i == selectedCourseId) ? $("<tr style='background-color: #eee;'>") : $("<tr>");
+    
     // Select content to be placed in table
     var content = [courses[i].description, courses[i].category, courses[i].name];
 
@@ -41,20 +43,23 @@ function renderCourses(){
     // Add EDIT buttons to table row
     tr.append($("<td>").append(buttons));
 
+    // Add content to page
     $(".course-list").append(tr);
   }
 };
 
+// Open Modal for Adding a Course
 function addCourse(){
   $("#addModal").modal("show"); // Open add modal
 };
 
+// Save New Course, Close Modal
 function createCourse(){
 
   courses.push({
-    name : $("#addModalForm #name").val(),
-    category : $("#addModalForm #category").val(),
-    description : $("#addModalForm #description").val(),
+    name : $("#addModalForm .name").val(),
+    category : $("#addModalForm .category").val(),
+    description : $("#addModalForm .description").val(),
     modified : "NOW",
   });
 
@@ -63,13 +68,11 @@ function createCourse(){
   renderCourses();
 }
 
+// Open Modal for Editing a Course
 function editCourse(id){
+  selectedCourseId = id;
+
   $("#editModal").modal("show"); // Open edit modal
-  
-  // Update Save Function
-  $("#editModal .save").click(function(){
-    updateCourse(id) // Pass in ID
-  }); 
 
   var course = courses[id];
 
@@ -79,17 +82,15 @@ function editCourse(id){
   $("#editModalForm #description").val(course.description);
 };
 
-function updateCourse(id){
-  var course = courses[id];
+// Save Edited Course, Close Modal
+function saveCourse(){
+  var id = selectedCourseId;
 
-  courses.splice(id, 1);
-
-  courses.push({
-    name : $("#editModalForm #name").val(),
-    category : $("#editModalForm #category").val(),
-    description : $("#editModalForm #description").val(),
-    modified : "NOW",
-  });
+  // Save new values
+  courses[id].name = $("#editModalForm #name").val();
+  courses[id].category = $("#editModalForm #category").val();
+  courses[id].description = $("#editModalForm #description").val();
+  courses[id].modified = "NOW";
 
   $("#editModal").modal("hide"); // hide edit modal
 
@@ -98,8 +99,9 @@ function updateCourse(id){
 
 function deleteCourse(id){
   var selected = courses[id];
-  if(confirm("Are you sure you want to delete " + selected.name + "?")){
 
+  // Use confirm() dialog
+  if(confirm("Are you sure you want to delete " + selected.name + "?")){
     courses.splice(id, 1);
     renderCourses(); 
   }

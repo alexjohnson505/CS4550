@@ -9,16 +9,6 @@ courses = [
   	{ name : "NodeJS 101", category : "PROG", dateCreated : "5/1/2015", description : "Awesome" }
 ];
 
-// @TODO - Finish localStorage support
-// if (localStorage.getItem("courses")){
-//   courses = JSON.parse(localStorage["courses"]);
-//   console.log(courses)
-// }
-
-
-// Define the last selected ID
-selectedId = -1;
-
 // Takes the list of courses, and render them as table rows
 function renderCourses(courses){
   
@@ -31,7 +21,7 @@ function renderCourses(courses){
     var tr = $("<tr>");
 
     // Select content to be placed in table
-    var content = [courses[i].name, courses[i].category, courses[i].dateCreated];
+    var content = [courses[i].description, courses[i].category, courses[i].name];
 
     // Create table data cells
     for (var j = content.length - 1; k=j >= 0; k=j--) {
@@ -55,9 +45,41 @@ function renderCourses(courses){
   }
 };
 
-function editCourse(id){
-
+function addCourse(course){
+  courses.push(course);
+  renderCourses();
 };
+
+function editCourse(id){
+  $("#editModal").modal("show"); // Open edit modal
+  
+  // Update Save Function
+  $("#editModal .save").click(function(){
+    updateCourse(id) // Pass in ID
+  }); 
+
+  var course = courses[id];
+
+  // Populate Form
+  $("#editModalForm #name").val(course.name);
+  $("#editModalForm #category").val(course.category);
+  $("#editModalForm #description").val(course.description);
+};
+
+function updateCourse(id){
+  var course = courses[id];
+
+  courses.splice(id, 1);
+
+  courses.push({
+    name : $("#editModalForm #name").val(),
+    category : $("#editModalForm #category").val(),
+    description : $("#editModalForm #description").val(),
+    modified : "NOW",
+  });
+
+  renderCourses(courses);
+}
 
 function deleteCourse(i){
   var selected = courses[i];
@@ -67,12 +89,6 @@ function deleteCourse(i){
     renderCourses(courses); 
   }
 }
-
-function addCourse(course){
-  courses.push(course);
-  renderCourses();
-};
-
 
 // @TODO - Fix localStorage JSON retrieval.
 function save(){
@@ -85,4 +101,10 @@ $(function () {
 
   // Initialize Data onto Page
   renderCourses(courses);
+
+  // @TODO - Finish localStorage support
+  // if (localStorage.getItem("courses")){
+  //   courses = JSON.parse(localStorage["courses"]);
+  //   console.log(courses)
+  // }
 });

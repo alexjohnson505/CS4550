@@ -1,4 +1,3 @@
-// JAVASCRIPT LOGIC
 
 /**********************
     Init Content
@@ -32,7 +31,7 @@ function renderCourses(){
   // Iterate through courses
   for (var i = courses.length - 1; i >= 0; i--) {
     
-    var tr = (i == selectedCourseId) ? $("<tr style='background-color: #eee;'>") : $("<tr>");
+    var tr = $("<tr>");
     
     // Select content to be placed in table
     var content = [courses[i].description, courses[i].category, courses[i].name];

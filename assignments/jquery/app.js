@@ -50,6 +50,23 @@ function renderCourses(){
 
 // Open Modal for Adding a Course
 function addCourse(){
+
+  // Generate today's date
+  // http://stackoverflow.com/questions/6982692/html5-input-type-date-default-value-to-today
+  var now = new Date();
+  var month = (now.getMonth() + 1);               
+  var day = now.getDate();
+
+  if(month < 10) 
+      month = "0" + month;
+  if(day < 10) 
+      day = "0" + day;
+
+  var today = now.getFullYear() + '-' + month + '-' + day;
+
+  // Place date as default value in datepicker
+  $('#addModalForm .dateCreated').val(today);
+
   $("#addModal").modal("show"); // Open add modal
 };
 
@@ -59,8 +76,8 @@ function createCourse(){
   courses.push({
     name : $("#addModalForm .name").val(),
     category : $("#addModalForm .category").val(),
+    modified : $("#addModalForm .dateCreated").val(),
     description : $("#addModalForm .description").val(),
-    modified : "NOW",
   });
 
   $("#addModal").modal("hide"); // Hide add modal

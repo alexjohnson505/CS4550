@@ -10,7 +10,7 @@ courses = [
 ];
 
 // Takes the list of courses, and render them as table rows
-function renderCourses(courses){
+function renderCourses(){
   
   // Clear courses.
   $(".course-list tbody").html(" ");
@@ -45,10 +45,23 @@ function renderCourses(courses){
   }
 };
 
-function addCourse(course){
-  courses.push(course);
-  renderCourses();
+function addCourse(){
+  $("#addModal").modal("show"); // Open add modal
 };
+
+function createCourse(){
+
+  courses.push({
+    name : $("#addModalForm #name").val(),
+    category : $("#addModalForm #category").val(),
+    description : $("#addModalForm #description").val(),
+    modified : "NOW",
+  });
+
+  $("#addModal").modal("hide"); // Hide add modal
+
+  renderCourses();
+}
 
 function editCourse(id){
   $("#editModal").modal("show"); // Open edit modal
@@ -78,15 +91,17 @@ function updateCourse(id){
     modified : "NOW",
   });
 
-  renderCourses(courses);
+  $("#editModal").modal("hide"); // hide edit modal
+
+  renderCourses();
 }
 
-function deleteCourse(i){
-  var selected = courses[i];
+function deleteCourse(id){
+  var selected = courses[id];
   if(confirm("Are you sure you want to delete " + selected.name + "?")){
 
-    courses.splice(selectedId, 1);
-    renderCourses(courses); 
+    courses.splice(id, 1);
+    renderCourses(); 
   }
 }
 
@@ -100,7 +115,7 @@ function save(){
 $(function () {
 
   // Initialize Data onto Page
-  renderCourses(courses);
+  renderCourses();
 
   // @TODO - Finish localStorage support
   // if (localStorage.getItem("courses")){
